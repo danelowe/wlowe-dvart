@@ -1,0 +1,12 @@
+{{ $text := .Text }}
+{{ $parts := split .Text "|"}}
+{{ $isClass := hasPrefix $text "." }}
+{{ $hasMeta := eq (len $parts) 2}}
+{{ $class := ""}}
+{{ if and $isClass $hasMeta }}
+    {{ $class = index $parts 0 | strings.TrimLeft "." }}
+    {{ $text = index $parts 1 }}
+{{ end }}
+<p{{ with $class}} class="{{ $class }}"{{ end }}>
+<img src="{{ .Destination | safeURL }}" alt="{{ $text }}" {{ with .Title }} title="{{ .Title }}"{{ end }} />
+</p>
